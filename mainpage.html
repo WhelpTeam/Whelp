@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Main Page</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	
+	<style>
+		ul{
+			background-color: #eee;
+			cursor: pointer;
+		}
+		li{
+			padding: 12px;
+		}
+		body{
+			background-image: url('yelp.jpg');
+    		background-size:cover;
+   			background-repeat:   no-repeat;
+    		background-position: center;
+		}
+	</style>
+	
+	<script>
+	$(document).ready(function(){
+		
+		$('#name').on("keyup", function(){
+			
+			var query = $(this).val();
+			//alert(query);
+			
+			if(query != ''){				
+					$.ajax({
+					url: "sendYelpHtml.php",
+					method: "POST",
+					data:{query:query},
+					context: document.body,
+					dataType: "html",
+					success:function(data){
+						$('#nameList').fadeIn();
+						$('#nameList').html(data);
+						}
+					});
+				
+				}else{
+						$('#nameList').fadeOut();
+						$('#nameList').html("");
+				}
+			});
+		$(document).on('click', 'li', function(){
+			
+			$('#name').val($(this).text());
+			$('#nameList').fadeOut();
+		});
+	});
+
+</script>
+	
+	
+</head>
+
+<body>
+	<br><br>
+	<div class="container" style="width: 600px;">
+		<h2 align="center">Whelp // Catchy Slogan</h2>
+		<br><br><br><br>
+		<label style="color: white">Search Restaurants</label>
+		<input type="text" name="name" id="name" class="form-control" placeholder="Enter Business Name">
+		<div id="nameList"></div>
+		<br><br><br><br>
+		<br><br><br><br>
+	</div>
+</body>
+</html>
